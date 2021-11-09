@@ -1,9 +1,12 @@
 import Layout from './components'
+import { OompaLoompaProvider } from './context/oompaLoompaContext'
 
 const App = () => {
   return (
-    <Layout />
-  );
+    <OompaLoompaProvider>
+      <Layout />
+    </OompaLoompaProvider>
+  )
 }
 
-export default App;
+export default App
