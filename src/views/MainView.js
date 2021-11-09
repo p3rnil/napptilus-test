@@ -1,8 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Header from './Header'
-import List from './List'
-import SearchBar from './SearchBar'
+import { Header, List, SearchBar } from '../components'
 
 const Layout = () => {
   return (
