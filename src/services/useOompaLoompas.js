@@ -11,6 +11,7 @@ const useOompaLoompas = (pageNumber) => {
   const [loading, setLoading] = useState(true)
 
   const fetchData = useCallback(() => {
+    setLoading(true)
     axios
       .get(null, {
         params: {

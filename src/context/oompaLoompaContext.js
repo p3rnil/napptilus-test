@@ -6,7 +6,40 @@ const OompaLoompaDispatchContext = createContext()
 const oompaLoompaReducer = (state, action) => {
   switch (action.type) {
     case 'update_list': {
-      return { list: [...state.list, ...action.payload] }
+      return {
+        list: [...state.list, ...action.payload],
+        filteredList: state.filteredList,
+        selected: state.selected,
+        page: state.page,
+        loading: state.loading,
+      }
+    }
+    case 'update_filteredList': {
+      return {
+        list: state.list,
+        filteredList: action.payload,
+        selected: state.selected,
+        page: state.page,
+        loading: state.loading,
+      }
+    }
+    case 'increment_page': {
+      return {
+        list: state.list,
+        filteredList: state.filteredList,
+        selected: state.selected,
+        page: state.page + 1,
+        loading: state.loading,
+      }
+    }
+    case 'update_loading': {
+      return {
+        list: state.list,
+        filteredList: state.filteredList,
+        selected: state.selected,
+        page: state.page,
+        loading: action.payload,
+      }
     }
     case 'load_selected': {
       return { selected: action.payload }
@@ -20,7 +53,10 @@ const oompaLoompaReducer = (state, action) => {
 const OompaLoompaProvider = ({ children }) => {
   const [state, dispatch] = useReducer(oompaLoompaReducer, {
     list: [],
+    filteredList: null,
     selected: null,
+    page: 1,
+    loading: false,
   })
   return (
     <OompaLoompaStateContext.Provider value={state}>

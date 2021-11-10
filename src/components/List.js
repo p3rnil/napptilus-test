@@ -1,5 +1,5 @@
+import { useEffect, useCallback, useRef, useState } from 'react'
 import Box from '@mui/material/Box'
-import { useEffect, useCallback, useState, useRef } from 'react'
 import { Card } from '../components'
 import useOompaLoompas from '../services/useOompaLoompas'
 import {
@@ -8,9 +8,9 @@ import {
 } from '../context/oompaLoompaContext'
 
 const List = () => {
-  const [page, setPage] = useState(1)
+  const { list, filteredList, page } = useOompaLoompaState()
+  const [listToShow, setListToShow] = useState(list)
   const { response, loading } = useOompaLoompas(page)
-  const { list } = useOompaLoompaState()
   const dispatch = useOompaLoompaDispatch()
   const loader = useRef(null)
 
@@ -19,14 +19,26 @@ const List = () => {
       if (loading) return
       if (loader.current) loader.current.disconnect()
       loader.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prev) => prev + 1)
+        if (entries[0].isIntersecting && filteredList === null) {
+          dispatch({ type: 'increment_page' })
         }
       })
       if (node) loader.current.observe(node)
     },
-    [loading]
+    [dispatch, filteredList, loading]
   )
+
+  useEffect(() => {
+    if (filteredList !== null) {
+      setListToShow(filteredList)
+    } else {
+      setListToShow(list)
+    }
+  }, [list, filteredList])
+
+  useEffect(() => {
+    dispatch({ type: 'update_loading', payload: loading })
+  }, [dispatch, loading])
 
   // Effect for update context
   useEffect(() => {
@@ -35,10 +47,6 @@ const List = () => {
       dispatch({ type: 'update_list', payload: response })
     }
   }, [dispatch, response])
-
-  if (loading) {
-    return null
-  }
 
   return (
     <Box
@@ -49,8 +57,8 @@ const List = () => {
         justifyContent: 'center',
       }}
     >
-      {list.map((element, index) => {
-        if (list.length === index + 1) {
+      {listToShow.map((element, index) => {
+        if (listToShow.length === index + 1) {
           return (
             <div key={index} ref={loaderRef}>
               <Card key={index} info={element} />
