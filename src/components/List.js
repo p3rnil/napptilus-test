@@ -14,25 +14,19 @@ const List = () => {
   const dispatch = useOompaLoompaDispatch()
   const loader = useRef(null)
 
-  const handleObserver = useCallback((entries) => {
-    const target = entries[0]
-    if (target.isIntersecting) {
-      setPage((prev) => prev + 1)
-    }
-  }, [])
-
-  useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: '20px',
-      threshold: 0.0,
-    }
-    const observer = new IntersectionObserver(handleObserver, option)
-    if (loader.current) {
-      observer.observe(loader.current)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleObserver, loader.current])
+  const loaderRef = useCallback(
+    (node) => {
+      if (loading) return
+      if (loader.current) loader.current.disconnect()
+      loader.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prev) => prev + 1)
+        }
+      })
+      if (node) loader.current.observe(node)
+    },
+    [loading]
+  )
 
   // Effect for update context
   useEffect(() => {
@@ -56,9 +50,20 @@ const List = () => {
       }}
     >
       {list.map((element, index) => {
-        return <Card key={index} info={element}></Card>
+        if (list.length === index + 1) {
+          return (
+            <div key={index} ref={loaderRef}>
+              <Card key={index} info={element} />
+            </div>
+          )
+        } else {
+          return (
+            <div key={index}>
+              <Card key={index} info={element} />
+            </div>
+          )
+        }
       })}
-      <div ref={loader} />
     </Box>
   )
 }

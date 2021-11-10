@@ -26,9 +26,20 @@ const useOompaLoompas = (pageNumber) => {
             gender: element.gender,
           }
         })
-        console.log(list)
+
         // Update local storage
-        setItem(`page${pageNumber}`, list)
+        const localStorageList = getItem(`OompaLoompas`)
+
+        if (localStorageList !== null) {
+          setItem(`OompaLoompas`, [
+            ...localStorageList,
+            { page: pageNumber, timestamp: new Date(), list },
+          ])
+        } else {
+          setItem(`OompaLoompas`, [
+            { page: pageNumber, timestamp: new Date(), list },
+          ])
+        }
 
         setResponse(list)
       })
@@ -42,14 +53,23 @@ const useOompaLoompas = (pageNumber) => {
 
   useEffect(() => {
     // Check local storage
+    const oompaLoompasList = getItem(`OompaLoompas`)
 
-    const pageList = getItem(`page${pageNumber}`)
+    if (oompaLoompasList !== null) {
+      const pageList = oompaLoompasList.find(
+        (element) => element.page === pageNumber
+      )
 
-    if (pageList !== null) {
-      // Found on local storage
-      setResponse(pageList)
-      setLoading(false)
+      if (pageList) {
+        // Found on local storage
+        setResponse(pageList.list)
+        setLoading(false)
+      } else {
+        // Fetch api
+        fetchData()
+      }
     } else {
+      // Fetch api
       fetchData()
     }
   }, [fetchData, pageNumber])
