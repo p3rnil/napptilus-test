@@ -5,7 +5,7 @@ const OompaLoompaDispatchContext = createContext()
 
 const oompaLoompaReducer = (state, action) => {
   switch (action.type) {
-    case 'load_page': {
+    case 'update_list': {
       return { list: [...state.list, ...action.payload] }
     }
     case 'load_selected': {
