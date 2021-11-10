@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import { getItem, setItem } from '../utils/localStorage'
 
 axios.defaults.baseURL =
   'https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/oompa-loompas'
 
-const useOompaLoompas = (pageNumber = 1) => {
+const useOompaLoompas = (pageNumber) => {
   const [response, setResponse] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     axios
       .get(null, {
         params: {
@@ -38,10 +38,11 @@ const useOompaLoompas = (pageNumber = 1) => {
       .finally(() => {
         setLoading(false)
       })
-  }
+  }, [pageNumber])
 
   useEffect(() => {
     // Check local storage
+
     const pageList = getItem(`page${pageNumber}`)
 
     if (pageList !== null) {
@@ -51,7 +52,7 @@ const useOompaLoompas = (pageNumber = 1) => {
     } else {
       fetchData()
     }
-  }, [])
+  }, [fetchData, pageNumber])
 
   // custom hook returns value
   return { response, error, loading }
