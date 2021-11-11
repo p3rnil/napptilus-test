@@ -8,7 +8,6 @@ const Header = () => {
       sx={{
         display: 'flex',
         alignSelf: 'stretch',
-        width: '100%',
         backgroundColor: '#B8B8B8',
         padding: '5px 0',
         paddingLeft: '22%',
