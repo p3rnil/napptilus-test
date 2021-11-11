@@ -21,6 +21,7 @@ const useOompaLoompas = (pageNumber) => {
       .then((res) => {
         const list = res.data.results.map((element) => {
           return {
+            id: element.id,
             name: element.first_name,
             image: element.image,
             profession: element.profession,
