@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Box from '@mui/material/Box'
 import { getItem } from '../utils/localStorage'
 import {
   useOompaLoompaState,
@@ -47,7 +48,39 @@ const SearchBar = () => {
     dispatch({ type: 'update_filteredList', payload: filteredList })
   }, [dispatch, listFromLocalStorage, query])
 
-  return <input type="text" value={query} onChange={handleChange} />
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderRadius: '5px',
+        borderColor: '#B8B8B8',
+        padding: '5px',
+        marginLeft: '48.5%',
+      }}
+    >
+      <input
+        type="text"
+        style={{ border: '0', outline: 'none', maxWidth: '100px' }}
+        value={query}
+        placeholder="Search"
+        onChange={handleChange}
+      />
+      <img
+        style={{
+          maxHeight: '15px',
+          borderLeftWidth: '1px',
+          borderColor: 'grey',
+          borderLeftStyle: 'solid',
+          paddingLeft: '3px',
+        }}
+        src="https://s3.eu-central-1.amazonaws.com/napptilus/level-test/imgs/ic_search.png"
+        alt="logo"
+        loading="lazy"
+      />
+    </Box>
+  )
 }
 
 export default SearchBar

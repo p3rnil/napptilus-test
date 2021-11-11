@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 const Card = ({ info }) => {
   const { name, image, gender, profession } = info
@@ -16,9 +17,23 @@ const Card = ({ info }) => {
         alt={name}
         loading="lazy"
       />
-      <span>{name}</span>
-      <span>{gender}</span>
-      <span>{profession}</span>
+      <Typography
+        variant="body1"
+        component="span"
+        style={{ fontWeight: 'bold', marginTop: '25px' }}
+      >
+        {name}
+      </Typography>
+      <Typography variant="body2" component="span" style={{ color: 'grey' }}>
+        {gender}
+      </Typography>
+      <Typography
+        variant="body2"
+        component="span"
+        style={{ fontStyle: 'italic', color: 'grey' }}
+      >
+        {profession}
+      </Typography>
     </Box>
   )
 }

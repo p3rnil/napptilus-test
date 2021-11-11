@@ -55,6 +55,7 @@ const List = () => {
         gridTemplateColumns: 'repeat(3, 1fr)',
         gridGap: '40px 25px',
         justifyContent: 'center',
+        marginTop: '50px',
       }}
     >
       {listToShow.map((element, index) => {
