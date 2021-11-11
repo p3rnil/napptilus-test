@@ -1,7 +1,10 @@
 import Box from '@mui/material/Box'
+import { useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 
 const Header = () => {
+  const navigate = useNavigate()
+
   return (
     <Box
       gap={2}
@@ -15,10 +18,13 @@ const Header = () => {
       }}
     >
       <img
-        style={{ maxHeight: '25px' }}
+        style={{ maxHeight: '25px', cursor: 'pointer' }}
         src="https://s3.eu-central-1.amazonaws.com/napptilus/level-test/imgs/logo-umpa-loompa.png"
         alt="logo"
         loading="lazy"
+        onClick={() => {
+          navigate('/')
+        }}
       />
       <Typography
         variant="subtitle1"

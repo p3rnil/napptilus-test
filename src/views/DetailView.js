@@ -13,25 +13,50 @@ const CardDetail = () => {
   return (
     <>
       <Header />
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '50px',
+        }}
+      >
         <img
-          style={{ maxWidth: '300px' }}
+          style={{ maxHeight: '450px' }}
           src={response.image}
           alt={response.name}
           loading="lazy"
         />
-        <Typography variant="body2" component="span" style={{ color: 'grey' }}>
-          {response.name}
-        </Typography>
-        <Typography variant="body2" component="span" style={{ color: 'grey' }}>
-          {response.gender}
-        </Typography>
-        <Typography variant="body2" component="span" style={{ color: 'grey' }}>
-          {response.profession}
-        </Typography>
-        <Typography variant="body2" component="span" style={{ color: 'grey' }}>
-          {response.description}
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            maxWidth: '500px',
+            marginLeft: '15px',
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="div"
+            style={{ fontWeight: 'bold' }}
+          >
+            {response.name}
+          </Typography>
+          <Typography
+            variant="body2"
+            component="span"
+            style={{ color: 'grey' }}
+          >
+            {response.gender}
+          </Typography>
+          <Typography
+            variant="body2"
+            component="span"
+            style={{ fontStyle: 'italic', color: 'grey', marginBottom: '30px' }}
+          >
+            {response.profession}
+          </Typography>
+          <div dangerouslySetInnerHTML={{ __html: response.description }} />
+        </Box>
       </Box>
     </>
   )

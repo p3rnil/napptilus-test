@@ -57,7 +57,7 @@ const useOompaLoompas = (id) => {
             { timestamp: Date.now(), info: oompaLoompa },
           ])
         }
-        setResponse(res.data)
+        setResponse(oompaLoompa)
       })
       .catch((err) => {
         setError(err)
