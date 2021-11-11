@@ -34,14 +34,13 @@ const useOompaLoompas = (pageNumber) => {
         if (localStorageList !== null) {
           setItem(`OompaLoompas`, [
             ...localStorageList,
-            { page: pageNumber, timestamp: new Date(), list },
+            { page: pageNumber, timestamp: Date.now(), list },
           ])
         } else {
           setItem(`OompaLoompas`, [
-            { page: pageNumber, timestamp: new Date(), list },
+            { page: pageNumber, timestamp: Date.now(), list },
           ])
         }
-
         setResponse(list)
       })
       .catch((err) => {
@@ -62,14 +61,26 @@ const useOompaLoompas = (pageNumber) => {
       )
 
       if (pageList) {
-        // Found on local storage
-        setResponse(pageList.list)
-        setLoading(false)
+        // Found page on local storage
+        const daysPassed = Math.floor(
+          (Date.now() - pageList.timestamp) / (1000 * 60 * 60 * 24)
+        )
+
+        // Check days
+        if (daysPassed < 1) {
+          setResponse(pageList.list)
+          setLoading(false)
+        } else {
+          // Fetch api
+          fetchData()
+        }
       } else {
+        // Not found page in local storage
         // Fetch api
         fetchData()
       }
     } else {
+      // Not found list in local storage
       // Fetch api
       fetchData()
     }
